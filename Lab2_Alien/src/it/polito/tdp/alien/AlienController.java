@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 
 public class AlienController {
 	
+	private AlienDictionary ad= new AlienDictionary();
+	
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -43,13 +45,35 @@ public class AlienController {
     
     @FXML
     void doTranslate(ActionEvent event) {
-    	    	
+    	
+       	String daCercare= txtWord.getText().toLowerCase();
+    	String array[]= daCercare.split(" ");
+    
+    	
+    	if(array.length==1) {
+    		//sto cercando una parola
+    		String result= ad.translateWord(array[0]);
+    		//devo stampare sulla finestra il risultato
+    		txtResult.appendText("Traduzione/i della parola digitata: "+result+"\n");
+    		txtWord.clear();
+    		
+    	}else if(array.length==2) {
+    		//sto introducendo una nuova parola
+    		ad.addWord(array[0], array[1]);
+    		txtResult.appendText("Traduzione aggiornata\n");
+    		txtWord.clear();
+    	}else{
+    		txtResult.appendText("Formato inserimento sbagliato\n");
+    		txtWord.clear();
+    	}
     }
     
     
     @FXML
     void doReset(ActionEvent event) {
-
+        ad= new AlienDictionary();
+    	txtResult.clear();
+    	txtWord.clear();
     }
     
 }
